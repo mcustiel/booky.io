@@ -12,10 +12,10 @@ const initialState = {
             'id': 0,
             'name': 'Dashboard كيف ح вет, как 1'
         }, {
-            'id': 1,
+            'id': 2,
             'name': 'Dashboard looooooooooooooooong 2'
         }, {
-            'id': 2,
+            'id': 1,
             'name': 'Dashboard こんにち 3'
         }],
         'active': 0,

@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { scrolling } from '../../00_base/utils/Scrolling';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import Dashboard from '../../02_molecules/dashboard/Dashboard.jsx';
 import Button from '../../01_atoms/button/Button.jsx';
@@ -24,7 +26,7 @@ import Button from '../../01_atoms/button/Button.jsx';
  * @prop {number}   offset           Top offset (padding)
  * @prop {number}   position         0 for sidebar, 1 for dropdown
  */
-export default class Dashboards extends Component {
+class Dashboards extends Component {
     componentDidMount() {
         // Sidebar
         if (this.props.position === 1 && this.props.activePosition === 1) {
@@ -75,6 +77,10 @@ export default class Dashboards extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
+
     componentDidUpdate() {
         // Sidebar
         if (this.props.position === 1 && this.props.activePosition === 1) {
@@ -115,21 +121,28 @@ export default class Dashboards extends Component {
         return className;
     }
 
+    
+
     render() {
         const PROPS = this.props;
         const DASHBOARDS = PROPS.dashboards;
         const CLASS = this.getClassName();
 
+        console.log(DASHBOARDS[0]);
+
         return (
             <aside className={ CLASS }>
                 <ul className="o-dashboards__list">
                     <li className="o-dashboards__title">{ 'Dashboards' }</li>
-                    {DASHBOARDS.map((dashboard) =>
+                    {DASHBOARDS.map((dashboard, i) =>
                         <Dashboard 
-                            key={ dashboard.id } { ...dashboard } 
+                            { ...dashboard } 
+                            key={ dashboard.id } 
+                            index={ i } 
                             onDashboardClick={ PROPS.onDashboardClick } 
                             isActive={ this.props.activeDashboard === dashboard.id } 
-                            editMode={ PROPS.editMode }
+                            editMode={ PROPS.editMode } 
+                            moveDashboard={ PROPS.moveDashboard } 
                         />
                     )}
                     <li className="o-dashboards__button-wrapper">
@@ -147,9 +160,12 @@ Dashboards.propTypes = {
     'dashboards': PropTypes.array.isRequired,
     'onDashboardClick': PropTypes.func.isRequired,
     'updateOffset': PropTypes.func.isRequired,
+    'moveDashboard': PropTypes.func.isRequired,
     'activeDashboard': PropTypes.number.isRequired,
     'editMode': PropTypes.bool.isRequired,
     'headerSticky': PropTypes.bool.isRequired,
     'toolbarSticky': PropTypes.bool.isRequired,
     'offset': PropTypes.number.isRequired
 };
+
+export default DragDropContext(HTML5Backend)(Dashboards);

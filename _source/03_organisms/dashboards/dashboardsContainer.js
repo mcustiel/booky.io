@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Dashboards from './Dashboards.jsx';
-import { changeDashboard, updateOffset } from './dashboardsActions';
+import { changeDashboard, updateOffset, moveDashboard } from './dashboardsActions';
 
 export const mapStateToProps = function(state) {
     return {
@@ -22,6 +22,9 @@ export const mapDispatchToProps = function(dispatch) {
         },
         'updateOffset': (offset) => {
             dispatch(updateOffset(offset));
+        },
+        'moveDashboard': (dragIndex, hoverIndex) => {
+            dispatch(moveDashboard(dragIndex, hoverIndex));
         }
     };
 };
