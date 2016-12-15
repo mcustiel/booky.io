@@ -70,7 +70,7 @@ Dashboard.propTypes = {
     'moveDashboard': PropTypes.func.isRequired
 };
 
-const cardSource = {
+const dashboardSource = {
     beginDrag(props) {
         return {
             'id': props.id,
@@ -79,7 +79,7 @@ const cardSource = {
     }
 };
 
-const cardTarget = {
+const dashboardTarget = {
     hover(props, monitor, component) {
         const dragIndex = monitor.getItem().index;
         const hoverIndex = props.index;
@@ -126,13 +126,13 @@ const cardTarget = {
     }
 };
 
-function collect1(connect) {
+function collectTarget(connect) {
     return {
         'connectDropTarget': connect.dropTarget()
     };
 }
 
-function collect2(connect, monitor) {
+function collectSource(connect, monitor) {
     return {
         'connectDragSource': connect.dragSource(),
         'connectDragPreview': connect.dragPreview(),
@@ -141,6 +141,6 @@ function collect2(connect, monitor) {
 }
 
 export default flow(
-    DragSource('dashboard', cardSource, collect2),
-    DropTarget('dashboard', cardTarget, collect1)
+    DragSource('dashboard', dashboardSource, collectSource),
+    DropTarget('dashboard', dashboardTarget, collectTarget)
 )(Dashboard);
