@@ -13,11 +13,17 @@ import Icon from '../../01_atoms/icon/Icon.jsx';
  *
  * @requires 01_atoms/icon/Icon
  *
- * @prop {boolean}  editMode         Edit mode enabled/disabled
- * @prop {boolean}  isActive         Active dashboard
- * @prop {function} onDashboardClick Dashboard click callback
- * @prop {number}   id
- * @prop {string}   name
+ * @prop {boolean}  editMode           Edit mode enabled/disabled
+ * @prop {boolean}  isActive           Active dashboard
+ * @prop {boolean}  isDragging         Injected by React DnD
+ * @prop {function} connectDragPreview Injected by React DnD
+ * @prop {function} connectDragSource  Injected by React DnD
+ * @prop {function} connectDropTarget  Injected by React DnD
+ * @prop {function} moveDashboard      Move dashboard to a new position dispatcher
+ * @prop {function} onDashboardClick   Dashboard click callback
+ * @prop {number}   id                 Dashboard id
+ * @prop {number}   index              Unique index used for drag and drop
+ * @prop {string}   name               Dashboard display name
  */
 class Dashboard extends Component {
     constructor(props) {
@@ -32,16 +38,13 @@ class Dashboard extends Component {
 
     render() {
         const PROPS = this.props;
-        const { isDragging, connectDragSource, connectDropTarget, connectDragPreview } = PROPS;
+        const { connectDragSource, connectDropTarget, connectDragPreview } = PROPS;
         const ACTIVE_CLASS = PROPS.isActive ? ' m-dashboard--active' : '';
         const EDIT_MODE_CLASS = PROPS.editMode ? ' m-dashboard--edit-mode' : '';
         const CLASS = 'm-dashboard' + ACTIVE_CLASS + EDIT_MODE_CLASS;
-        const OPACITY = isDragging ? 0 : 1;
-
-        // console.log(PROPS);
 
         return connectDragPreview(connectDropTarget(
-            <li style={ {OPACITY} } className={ CLASS }>
+            <li className={ CLASS }>
                 <span className="m-dashboard__title" title={ PROPS.name } onClick={ this.onDashboardClick }>{ PROPS.name }</span>
                 <Icon icon="edit" className="m-dashboard__icon m-dashboard__icon--edit-mode a-icon--light" title="Edit dashboard" />
                 <Icon icon="delete" className="m-dashboard__icon m-dashboard__icon--edit-mode a-icon--light" title="Delete dashboard" />

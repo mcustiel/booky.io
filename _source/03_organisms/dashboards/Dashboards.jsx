@@ -77,10 +77,6 @@ class Dashboards extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
-
     componentDidUpdate() {
         // Sidebar
         if (this.props.position === 1 && this.props.activePosition === 1) {
@@ -121,14 +117,10 @@ class Dashboards extends Component {
         return className;
     }
 
-    
-
     render() {
         const PROPS = this.props;
         const DASHBOARDS = PROPS.dashboards;
         const CLASS = this.getClassName();
-
-        console.log(DASHBOARDS[0]);
 
         return (
             <aside className={ CLASS }>

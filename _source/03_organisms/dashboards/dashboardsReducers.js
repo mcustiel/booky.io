@@ -1,5 +1,16 @@
 import { CHANGE_DASHBOARD, UPDATE_OFFSET, MOVE_DASHBOARD } from './dashboardsActions';
 
+function createNewItemsArray(state, action) {
+    const stateCopy = JSON.parse(JSON.stringify(state));
+    const dragItem = stateCopy.items[action.dragIndex];
+    const newItems = stateCopy.items;
+
+    newItems.splice(action.dragIndex, 1); // Removing the dragged item
+    newItems.splice(action.hoverIndex, 0, dragItem); // Inserting the dragged item
+
+    return newItems;
+}
+
 const dashboards = (state = {}, action) => {
 
     switch (action.type) {
@@ -14,14 +25,8 @@ const dashboards = (state = {}, action) => {
             });
 
         case MOVE_DASHBOARD:
-            const dragItem = state.items[action.dragIndex],
-                newItems = state.items;
-
-            newItems.splice(action.dragIndex, 1); // removing what you are dragging
-            newItems.splice(action.hoverIndex, 0, dragItem); // inserting it into hoverIndex
-
             return Object.assign({}, state, {
-                'items': newItems
+                'items': createNewItemsArray(state, action)
             });
 
         default:
